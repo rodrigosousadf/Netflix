@@ -1,34 +1,58 @@
-# Nextflix 1
-A simple Netflix Clone made using [Next.js](https://nextjs.org/) ⚡
+Netflix clone
 
-Currently, I have implemented the basic UI with media details fetch functionality.
+markdown
+Copy code
+# Netflix Clone
 
+Este é um projeto de clone do Netflix, desenvolvido com Next.js e outras tecnologias web modernas.
 
-Deployed it using vercel [here](https://nextflix-azure.vercel.app/).
+## Instalação
 
-Please leave a ⭐ as motivation if you liked the implementation 😄
+Certifique-se de ter o Node.js e o npm instalados em sua máquina. Execute os seguintes comandos para instalar as dependências e iniciar o projeto:
 
+```bash
+# Instalar dependências
+npm install
 
-## Demo
-![Demo](/public/assets/demo.gif)
-<br />
-<br />
+# Iniciar o aplicativo
+npm start
+O aplicativo será executado em http://localhost:3000.
 
-## Built with
-* [Next.js](https://nextjs.org/)
-* [Typescript](https://www.typescriptlang.org/)
-* [Sass](https://sass-lang.com/)
-* [TMDB API](https://www.themoviedb.org/)
+Construção e Implantação
+Para construir o aplicativo para produção, execute o seguinte comando:
 
+bash
+Copy code
+npm run build
+Isso criará uma pasta build com os arquivos otimizados para produção.
 
-## Running the project
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Para implantar o aplicativo em um servidor ou em um serviço de nuvem, você pode usar Docker. Aqui estão os passos básicos:
 
-In the project directory, you can run:
+bash
+Copy code
+# Construir a imagem Docker
+docker build -t netflix .
 
-#### `yarn start`
+# Marcar a imagem
+docker tag netflix rodrigosousadf/netflix:latest
 
-It runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser. 
+# Fazer login no Docker Hub
+echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
+# Empurrar a imagem para o Docker Hub
+docker push rodrigosousadf/netflix:latest
+Certifique-se de substituir ${{ secrets.DOCKERHUB_TOKEN }} e ${{ secrets.DOCKERHUB_USERNAME }} com suas credenciais do Docker Hub.
 
+Análise de Segurança
+Este projeto inclui análise de segurança usando OWASP Dependency-Check e Trivy. Certifique-se de ter essas ferramentas instaladas e configuradas conforme mencionado no fluxo de trabalho GitHub Actions.
+
+Contribuindo
+Sinta-se à vontade para abrir problemas e enviar solicitações de pull. Contribuições são bem-vindas!
+
+Licença
+Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para detalhes.
+
+csharp
+Copy code
+
+Lembre-se de personalizar as seções conforme necessário, esp
