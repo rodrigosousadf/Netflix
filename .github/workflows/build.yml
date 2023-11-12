@@ -52,11 +52,12 @@ jobs:
 
       - name: Install trivy
         run: |
-          sudo yum install wget -y
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
-          sudo mv trivy /usr/local/bin/trivy
-          sudo mv trivy /usr/local/bin/trivy
+          if ! command -v trivy &> /dev/null; then
+              wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+              wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+              sudo mv trivy /usr/local/bin/
+          fi
+          trivy --version  # Exibir versão do Trivy para verificação
 
       - name: Trivy image scan
         run: trivy image rodrigosousadf/netflix:latest
