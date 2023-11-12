@@ -34,6 +34,19 @@ jobs:
           sudo apt-get install trivy -y
           trivy fs .
 
+      - name: Run Dependency Check
+        run: |
+          wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-6.1.2-release.zip
+          unzip dependency-check-6.1.2-release.zip
+          cd dependency-check/bin
+          ./dependency-check.sh --project "Netflix" --scan ${{ github.workspace }} --format "ALL" --out /path/to/output/folder
+
+      - name: Upload Dependency Check results
+        uses: actions/upload-artifact@v2
+        with:
+          name: dependency-check-report
+          path: /path/to/output/folder
+
       - name: Docker build and push
         run: |
           docker build --build-arg TMDB_V3_API_KEY=7e8c3da0462a1bef004e78d2cafd71aa -t netflix .
@@ -64,10 +77,10 @@ jobs:
 
       - name: Run the container netflix
         run: |
+        # Remover o contêiner se ele já existir
+          docker rm -f netflix || true
+          # Iniciar o novo contêiner
           docker run -d --name netflix -p 8081:3000 rodrigosousadf/netflix:latest
           # Aguarde 10 segundos para garantir que o contêiner tenha tempo para iniciar
           sleep 10
-
-
-
 
