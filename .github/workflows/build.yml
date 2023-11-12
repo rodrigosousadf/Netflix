@@ -53,9 +53,10 @@ jobs:
       - name: Install trivy
         run: |
           sudo yum install wget -y
-          wget -qO - https://aquasecurity.github.io/trivy-repo/rpm/RPM-GPG-KEY-TRIVY | sudo gpg --import -
-          wget -qO /etc/yum.repos.d/trivy.repo https://aquasecurity.github.io/trivy-repo/rpm/trivy.repo
-          sudo yum install trivy -y
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+          sudo mv trivy /usr/local/bin/trivy
+          sudo mv trivy /usr/local/bin/trivy
 
       - name: Trivy image scan
         run: trivy image rodrigosousadf/netflix:latest
