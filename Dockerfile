@@ -1,20 +1,23 @@
-# Use uma imagem oficial do Node.js como base
-FROM node:14
+# Use a imagem Node.js 14 com Alpine Linux como base
+FROM node:14-alpine
 
-# Defina o diretório de trabalho dentro do contêiner
+# Define o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-# Copie o arquivo package.json para o diretório de trabalho
+# Copia apenas os arquivos necessários para a construção do projeto (package.json e package-lock.json primeiro)
 COPY package*.json ./
 
-# Instale as dependências
+# Instala as dependências
 RUN npm install
 
-# Copie todo o código-fonte para o diretório de trabalho
+# Copia o restante dos arquivos do aplicativo
 COPY . .
 
-# Exponha a porta 8080
-EXPOSE 8080
+# Executa o comando 'npm run build' para construir o aplicativo Next.js
+RUN npm run build
 
-# Comando para iniciar o aplicativo quando o contêiner for iniciado
+# Exponha a porta 3000 (ou a porta que você usa em seu aplicativo Next.js)
+EXPOSE 3000
+
+# Comando a ser executado quando o contêiner for iniciado
 CMD ["npm", "start"]
