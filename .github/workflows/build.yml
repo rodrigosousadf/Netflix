@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Shallow clones should be disabled for better relevance of analysis
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -50,3 +50,14 @@ jobs:
           docker push rodrigosousadf/netflix:latest
         env:
           DOCKER_CLI_ACI: 1 
+
+  deploy:    
+    needs: build-analyze-scan  
+    runs-on: [aws-netflix]  # use your label here
+    steps:
+      - name: Pull the docker image
+        run: docker pull rodrigosousadf/netflix:latest
+      - name: Trivy image scan
+        run: trivy image rodrigosousadf/netflix:latest
+      - name: Run the container netflix
+        run: docker run -d --name netflix -p 8081:80 rodrigosousadf/netflix:latest
