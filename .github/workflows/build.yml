@@ -25,14 +25,14 @@ jobs:
           sudo usermod -aG docker $USER
       - name: Verify Docker installation
         run: docker --version
-      - name: install trivy
+      - name: Install Trivy
         run: |
           sudo apt-get install wget apt-transport-https gnupg lsb-release -y
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
           echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
           sudo apt-get install trivy -y
-          trivy fs .
+          trivy --version
 
       - name: Run Dependency Check
         run: |
@@ -43,15 +43,15 @@ jobs:
           
           # Crie um diretório para armazenar os resultados do Dependency-Check
           mkdir -p ${{ github.workspace }}/dependency-check-results
-
+          
           # Execute o Dependency-Check e armazene os resultados no novo diretório
-          ./dependency-check.sh --project "Netflix" --scan ${{ github.workspace }} --format "ALL" --out /path/to/output/folder
+          ./dependency-check.sh --project "Netflix" --scan ${{ github.workspace }} --format "ALL" --out ${{ github.workspace }}/dependency-check-results
 
       - name: Upload Dependency Check results
         uses: actions/upload-artifact@v2
         with:
           name: dependency-check-report
-          path: /path/to/output/folder
+          path: ${{ github.workspace }}/dependency-check-results
 
       - name: Docker build and push
         run: |
@@ -69,14 +69,14 @@ jobs:
       - name: Pull the docker image
         run: docker pull rodrigosousadf/netflix:latest
 
-      - name: Install trivy
+      - name: Install Trivy
         run: |
           if ! command -v trivy &> /dev/null; then
               wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
               wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
               sudo mv trivy /usr/local/bin/
           fi
-          trivy --version  # Exibir versão do Trivy para verificação
+          trivy --version
 
       - name: Trivy image scan
         run: trivy image rodrigosousadf/netflix:latest
