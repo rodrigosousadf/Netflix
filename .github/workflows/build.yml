@@ -40,6 +40,11 @@ jobs:
           wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.1.0/dependency-check-7.1.0-release.zip
           unzip dependency-check-7.1.0-release.zip
           cd dependency-check/bin
+          
+          # Crie um diretório para armazenar os resultados do Dependency-Check
+          mkdir -p ${{ github.workspace }}/dependency-check-results
+
+          # Execute o Dependency-Check e armazene os resultados no novo diretório
           ./dependency-check.sh --project "Netflix" --scan ${{ github.workspace }} --format "ALL" --out /path/to/output/folder
 
       - name: Upload Dependency Check results
