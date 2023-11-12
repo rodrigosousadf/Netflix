@@ -77,10 +77,9 @@ jobs:
 
       - name: Run the container netflix
         run: |
-        # Remover o contêiner se ele já existir
+          # Remover o contêiner se ele já existir
           docker rm -f netflix || true
           # Iniciar o novo contêiner
           docker run -d --name netflix -p 8081:3000 rodrigosousadf/netflix:latest
           # Aguarde 10 segundos para garantir que o contêiner tenha tempo para iniciar
           sleep 10
-
