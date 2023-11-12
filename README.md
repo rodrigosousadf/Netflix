@@ -1,7 +1,4 @@
-Netflix clone
 
-markdown
-Copy code
 # Netflix Clone
 
 Este é um projeto de clone do Netflix, desenvolvido com Next.js e outras tecnologias web modernas.
