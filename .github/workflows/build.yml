@@ -13,25 +13,28 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for better relevance of analysis
+
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
       - name: Install Docker
         run: |
           sudo apt-get update
           sudo apt-get remove containerd -y
           sudo apt-get install -y containerd.io
           sudo usermod -aG docker $USER
+
       - name: Verify Docker installation
         run: docker --version
+
       - name: install trivy
         run: |
-          sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
-          sudo apt-get update
-          sudo apt-get install trivy -y
+          sudo apt-get install wget -y
+          wget -qO - https://aquasecurity.github.io/trivy-repo/rpm/RPM-GPG-KEY-TRIVY | sudo gpg --import -
+          wget -qO /etc/yum.repos.d/trivy.repo https://aquasecurity.github.io/trivy-repo/rpm/trivy.repo
+          sudo yum install trivy -y
           trivy fs .
 
       - name: Docker build and push
@@ -43,6 +46,13 @@ jobs:
         env:
           DOCKER_CLI_ACI: 1 
 
+  deploy:
+    needs: build
+    runs-on: [aws-netflix]  # use your label here
+    steps:
+      - name: Pull the docker image
+        run: docker pull rodrigosousadf/netflix:latest
+
       - name: Install trivy
         run: |
           sudo yum install wget -y
@@ -50,6 +60,10 @@ jobs:
           wget -qO /etc/yum.repos.d/trivy.repo https://aquasecurity.github.io/trivy-repo/rpm/trivy.repo
           sudo yum install trivy -y
 
+      - name: Trivy image scan
+        run: trivy image rodrigosousadf/netflix:latest
+
       - name: Run the container netflix
         run: docker run -d --name netflix -p 8081:80 rodrigosousadf/netflix:latest
+
 
