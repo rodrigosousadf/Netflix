@@ -1,4 +1,5 @@
-name: build-analyze-scan  
+name: Build and Push Docker Image
+
 on:
   push:
     branches:
@@ -6,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: build-analyze-scan  
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,38 +20,30 @@ jobs:
       - name: Install Docker
         run: |
           sudo apt-get update
-          # Remover a versão existente do containerd, se houver
           sudo apt-get remove containerd -y
-          # Instalar o containerd.io
           sudo apt-get install -y containerd.io
-          # Adicionar o usuário ao grupo docker
           sudo usermod -aG docker $USER
       - name: Verify Docker installation
         run: docker --version
       - name: install trivy
         run: |
-          # Install Trivy
           sudo apt-get install wget apt-transport-https gnupg lsb-release -y
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
           echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
           sudo apt-get install trivy -y
-          # Command to scan files
           trivy fs .
+
       - name: Docker build and push
         run: |
-          # Run commands to build and push Docker images
           docker build --build-arg TMDB_V3_API_KEY=7e8c3da0462a1bef004e78d2cafd71aa -t netflix .
           docker tag netflix rodrigosousadf/netflix:latest
-
-          # Use echo para passar a senha de forma segura
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-
           docker push rodrigosousadf/netflix:latest
         env:
           DOCKER_CLI_ACI: 1 
 
-  deploy:    
+  deploy:
     needs: build-analyze-scan  
     runs-on: [aws-netflix]  # use your label here
     steps:
