@@ -44,7 +44,7 @@ jobs:
           DOCKER_CLI_ACI: 1 
 
   deploy:
-    needs: build-analyze-scan  
+    needs: build
     runs-on: [aws-netflix]  # use your label here
     steps:
       - name: Pull the docker image
@@ -53,3 +53,4 @@ jobs:
         run: trivy image rodrigosousadf/netflix:latest
       - name: Run the container netflix
         run: docker run -d --name netflix -p 8081:80 rodrigosousadf/netflix:latest
+
