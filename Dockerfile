@@ -7,6 +7,9 @@ WORKDIR /app
 # Copie os arquivos de definição do pacote e o arquivo de bloqueio para o diretório de trabalho
 COPY package*.json ./
 
+# Instale as dependências (criará automaticamente o arquivo de lock)
+RUN npm install --quiet
+
 # Desative a auditoria temporariamente e execute npm audit fix
 RUN npm set audit false && npm audit fix
 
