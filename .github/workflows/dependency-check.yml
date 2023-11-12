@@ -1,0 +1,34 @@
+name: Dependency Check
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Run Dependency Check
+        run: |
+          wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-6.1.2-release.zip
+          unzip dependency-check-6.1.2-release.zip
+          cd dependency-check/bin
+          ./dependency-check.sh --project "Netflix" --scan . --format "ALL" --out /path/to/output/folder
+        working-directory: ${{ github.workspace }}
+
+      - name: Upload Dependency Check results
+        uses: actions/upload-artifact@v2
+        with:
+          name: dependency-check-report
+          path: /path/to/output/folder
