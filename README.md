@@ -7,8 +7,6 @@ Este é um projeto de clone do Netflix, desenvolvido com Next.js e outras tecnol
 
 Certifique-se de ter o Node.js e o npm instalados em sua máquina. Execute os seguintes comandos para instalar as dependências e iniciar o projeto:
 
-markdown
-Copy code
 ```bash
 # Instalar dependências
 npm install
