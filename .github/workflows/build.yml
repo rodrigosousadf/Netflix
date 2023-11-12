@@ -63,7 +63,10 @@ jobs:
         run: trivy image rodrigosousadf/netflix:latest
 
       - name: Run the container netflix
-        run: docker run -d --name netflix -p 8081:3000 rodrigosousadf/netflix:latest
+        run: |
+          docker run -d --name netflix -p 8081:3000 rodrigosousadf/netflix:latest
+          # Aguarde 10 segundos para garantir que o contêiner tenha tempo para iniciar
+          sleep 10
 
 
 
