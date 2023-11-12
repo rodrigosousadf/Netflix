@@ -36,8 +36,9 @@ jobs:
 
       - name: Run Dependency Check
         run: |
-          wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-6.1.2-release.zip
-          unzip dependency-check-6.1.2-release.zip
+          # Baixe a versão mais recente do Dependency-Check
+          wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.1.0/dependency-check-7.1.0-release.zip
+          unzip dependency-check-7.1.0-release.zip
           cd dependency-check/bin
           ./dependency-check.sh --project "Netflix" --scan ${{ github.workspace }} --format "ALL" --out /path/to/output/folder
 
