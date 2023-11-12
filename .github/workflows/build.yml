@@ -63,7 +63,7 @@ jobs:
         run: trivy image rodrigosousadf/netflix:latest
 
       - name: Run the container netflix
-        run: docker run -d --name netflix -p 8081:80 rodrigosousadf/netflix:latest
+        run: docker run -d --name netflix -p 8081:3000 rodrigosousadf/netflix:latest
 
 
 
