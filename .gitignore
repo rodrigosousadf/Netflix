@@ -34,3 +34,5 @@ debug.log
 .env.production.local
 # vercel
 .vercel
+
+/k8s
