@@ -62,30 +62,30 @@ jobs:
         env:
           DOCKER_CLI_ACI: 1 
 
-  deploy:
-    needs: build
-    runs-on: [aws-netflix]  # use your label here
-    steps:
-      - name: Pull the docker image
-        run: docker pull rodrigosousadf/netflix:latest
+  #deploy:
+    #needs: build
+    #runs-on: [aws-netflix]  # use your label here
+    #steps:
+      #- name: Pull the docker image
+        #run: docker pull rodrigosousadf/netflix:latest
 
-      - name: Install Trivy
-        run: |
-          if ! command -v trivy &> /dev/null; then
-              wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
-              wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
-              sudo mv trivy /usr/local/bin/
-          fi
-          trivy --version
+     # - name: Install Trivy
+        #run: |
+          #if ! command -v trivy &> /dev/null; then
+              #wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+              #wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+              #sudo mv trivy /usr/local/bin/
+          #fi
+          #trivy --version
 
-      - name: Trivy image scan
-        run: trivy image rodrigosousadf/netflix:latest
+      #- name: Trivy image scan
+        #run: trivy image rodrigosousadf/netflix:latest
 
-      - name: Run the container netflix
-        run: |
+      #- name: Run the container netflix
+        #run: |
           # Remover o contêiner se ele já existir
-          docker rm -f netflix || true
+          #docker rm -f netflix || true
           # Iniciar o novo contêiner
-          docker run -d --name netflix -p 8081:3000 rodrigosousadf/netflix:latest
+          #docker run -d --name netflix -p 8081:3000 rodrigosousadf/netflix:latest
           # Aguarde 10 segundos para garantir que o contêiner tenha tempo para iniciar
-          sleep 10
+          #sleep 10
