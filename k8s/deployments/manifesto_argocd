@@ -1,0 +1,9 @@
+project: default
+source:
+  repoURL: 'https://github.com/rodrigosousadf/Netflix.git'
+  path: k8s/deployments
+  targetRevision: HEAD
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: default
+syncPolicy: {}
