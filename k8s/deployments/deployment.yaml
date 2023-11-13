@@ -17,14 +17,14 @@ spec:
         image: rodrigosousadf/netflix:latest
         ports:
         - containerPort: 3000
-        readinessProbe:
-          tcpSocket:
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 80
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        #readinessProbe:
+          #tcpSocket:
+            #port: 80
+          #initialDelaySeconds: 5
+          #periodSeconds: 10
+        #livenessProbe:
+          #tcpSocket:
+            #port: 80
+          #initialDelaySeconds: 10
+         # periodSeconds: 10
 
