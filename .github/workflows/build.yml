@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build, Scan, and Push Docker Image
 
 on:
   push:
@@ -10,21 +10,27 @@ jobs:
     name: build-analyze-scan  
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for better relevance of analysis
-      - uses: sonarsource/sonarqube-scan-action@master
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
       - name: Install Docker
         run: |
           sudo apt-get update
           sudo apt-get remove containerd -y
           sudo apt-get install -y containerd.io
           sudo usermod -aG docker $USER
+
       - name: Verify Docker installation
         run: docker --version
+
       - name: Install Trivy
         run: |
           sudo apt-get install wget apt-transport-https gnupg lsb-release -y
@@ -36,15 +42,10 @@ jobs:
 
       - name: Run Dependency Check
         run: |
-          # Baixe a versão mais recente do Dependency-Check
           wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.1.0/dependency-check-7.1.0-release.zip
           unzip dependency-check-7.1.0-release.zip
           cd dependency-check/bin
-          
-          # Crie um diretório para armazenar os resultados do Dependency-Check
           mkdir -p ${{ github.workspace }}/dependency-check-results
-          
-          # Execute o Dependency-Check e armazene os resultados no novo diretório
           ./dependency-check.sh --project "Netflix" --scan ${{ github.workspace }} --format "ALL" --out ${{ github.workspace }}/dependency-check-results
 
       - name: Upload Dependency Check results
@@ -53,14 +54,22 @@ jobs:
           name: dependency-check-report
           path: ${{ github.workspace }}/dependency-check-results
 
-      - name: Docker build and push
+      - name: Docker build
         run: |
           docker build --build-arg TMDB_V3_API_KEY=7e8c3da0462a1bef004e78d2cafd71aa -t netflix .
+        
+      - name: Trivy scan
+        run: |
+          trivy --exit-code 0 --severity HIGH netflix
+
+      - name: Docker tag and push
+        run: |
           docker tag netflix rodrigosousadf/netflix:latest
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker push rodrigosousadf/netflix:latest
         env:
-          DOCKER_CLI_ACI: 1 
+          DOCKER_CLI_ACI: 1
+
 
   #deploy:
     #needs: build
