@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: netflix.example.com  # Altere para o seu domínio
+    - host: ae95988b59bb541688eaccd20abf3f13-190465744.us-east-1.elb.amazonaws.com  # Altere para o seu domínio
       http:
         paths:
           - path: /
