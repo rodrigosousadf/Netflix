@@ -20,7 +20,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: sonarqube-service
+                name: sonarqube
                 port:
                   number: 9000
           - path: /argocd
