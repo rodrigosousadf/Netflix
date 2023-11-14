@@ -60,7 +60,15 @@ jobs:
         
       - name: Trivy scan
         run: |
-          trivy --exit-code 0 --severity HIGH netflix
+          trivy --severity HIGH --no-progress netflix
+          trivy_exit_code=$?
+          if [ $trivy_exit_code -ne 0 ]; then
+            echo "Trivy found vulnerabilities with severity HIGH or higher."
+            exit $trivy_exit_code
+          else
+            echo "Trivy scan passed with no vulnerabilities of severity HIGH or higher."
+          fi
+
 
       - name: Docker tag and push
         run: |
