@@ -60,7 +60,9 @@ jobs:
         
       - name: Trivy scan
         run: |
-          trivy --quiet netflix
+          docker build --build-arg TMDB_V3_API_KEY=7e8c3da0462a1bef004e78d2cafd71aa -t netflix .
+          docker save netflix -o netflix.tar
+          trivy image --input netflix.tar
           trivy_exit_code=$?
           if [ $trivy_exit_code -ne 0 ]; then
             echo "Trivy found vulnerabilities. Exiting with code $trivy_exit_code."
@@ -68,6 +70,7 @@ jobs:
           else
             echo "Trivy scan passed with no vulnerabilities."
           fi
+
 
 
 
