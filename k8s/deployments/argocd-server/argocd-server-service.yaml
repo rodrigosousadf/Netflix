@@ -10,4 +10,4 @@ spec:
       targetPort: 8080  # Mantenha o mesmo valor se você não ajustou a porta do argocd-server no Deployment
   selector:
     app.kubernetes.io/name: argocd-server
-  type: LoadBalancer
+  type: ClusterIP
