@@ -16,3 +16,17 @@ spec:
                 name: netflix-service
                 port:
                   number: 80
+          - path: /sonarqube
+            pathType: Prefix
+            backend:
+              service:
+                name: sonarqube-service
+                port:
+                  number: 9000
+          - path: /argocd
+            pathType: Prefix
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  number: 443
