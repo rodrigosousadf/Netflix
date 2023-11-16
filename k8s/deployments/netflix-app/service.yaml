@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: netflix-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP  # Altera o tipo de serviço para ClusterIP
   selector:
     app: netflix
   ports:
