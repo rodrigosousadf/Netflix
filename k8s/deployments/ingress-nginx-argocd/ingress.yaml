@@ -24,3 +24,4 @@ spec:
     - hosts:
       - a11c67c5734574c8489c1dfdd8039587-157967dbe7b73631.elb.us-east-1.amazonaws.com
       secretName: seu-certificado-tls
+      #
