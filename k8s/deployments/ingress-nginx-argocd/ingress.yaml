@@ -4,16 +4,30 @@ metadata:
   name: ingress-nginx
   namespace: default
   annotations:
-    #nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      set $proxy_upstream_name "-";
+      set $proxy_host "-";
+      set $pass_access_scheme $scheme;
+      set $pass_server_port $server_port;
+      set $best_http_host $http_host;
+      set $pass_port $pass_server_port;
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:373548616758:certificate/f206ddbc-1fe4-477c-86be-a36fe13be5f1"
 spec:
+  tls:
+  - hosts:
+    - a11c67c5734574c8489c1dfdd8039587-1966979759.us-east-1.elb.amazonaws.com
+    secretName: ingress-tls-secret # Nome do segredo no Kubernetes
   rules:
-    - host: a11c67c5734574c8489c1dfdd8039587-1966979759.us-east-1.elb.amazonaws.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: netflix-service
-                port:
-                  number: 80
+  - host: a11c67c5734574c8489c1dfdd8039587-1966979759.us-east-1.elb.amazonaws.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: netflix-service
+            port:
+              number: 80
