@@ -2,32 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-nginx
-  namespace: ingress-nginx
+  namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    #nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
-  - host: http://adeee330af40f4f3c8c21c6a6ac85803-1686503199.us-east-1.elb.amazonaws.com/
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: netflix-service
-            port:
-              number: 80
-      - path: /sonarqube
-        pathType: Prefix
-        backend:
-          service:
-            name: sonarqube
-            port:
-              number: 9000
-      - path: /argocd
-        pathType: Prefix
-        backend:
-          service:
-            name: argocd-server
-            port:
-              number: 8080
+    - host: a11c67c5734574c8489c1dfdd8039587-1966979759.us-east-1.elb.amazonaws.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: netflix-service
+                port:
+                  number: 80
