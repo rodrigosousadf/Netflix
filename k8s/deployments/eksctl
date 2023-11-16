@@ -1,0 +1,18 @@
+eksctl create cluster \
+  --name netflix \
+  --region us-east-1 \
+  --node-type t2.medium \
+  --nodes 2 \
+  --node-volume-size 30 \
+  --node-zones us-east-1a,us-east-1b \
+  --auto-kubeconfig \
+  --asg-access \
+  --full-ecr-access \
+  --alb-ingress-access \
+  --vpc-private-subnets=subnet-private-1,subnet-private-2 \
+  --vpc-public-subnets=subnet-public-1,subnet-public-2 \
+  --external-dns-access \
+  --write-kubeconfig \
+  --set-kubeconfig-context=true \
+  --install-vpc-controllers \
+  --install-metrics-server
