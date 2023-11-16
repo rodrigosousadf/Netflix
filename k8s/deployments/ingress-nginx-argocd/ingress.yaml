@@ -17,9 +17,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: netflix-service
+                name: nginx-service
                 port:
-                  number: 80
+                  number: 8081
   tls:
     - hosts:
       - a11c67c5734574c8489c1dfdd8039587-157967dbe7b73631.elb.us-east-1.amazonaws.com
