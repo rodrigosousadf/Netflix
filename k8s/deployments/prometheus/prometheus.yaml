@@ -49,7 +49,7 @@ data:
     scrape_configs:
     - job_name: 'prometheus'
       static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['prometheus-deployment:9090']
 
 ---
 
@@ -72,4 +72,3 @@ spec:
             name: prometheus-deployment
             port:
               number: 9090
-
