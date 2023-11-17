@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: monitoring
+  name: monitoring-prometheus
 
 ---
 
@@ -9,7 +9,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus-deployment
-  namespace: monitoring
+  namespace: monitoring-prometheus
 spec:
   replicas: 1
   selector:
@@ -41,7 +41,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-configmap
-  namespace: monitoring
+  namespace: monitoring-prometheus
 data:
   prometheus.yml: |
     global:
@@ -57,7 +57,7 @@ apiVersion: networking.k8s.io/v1
 kind: Service
 metadata:
   name: prometheus-service
-  namespace: monitoring
+  namespace: monitoring-prometheus
 spec:
   selector:
     app: prometheus
@@ -71,7 +71,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: prometheus-ingress
-  namespace: monitoring
+  namespace: monitoring-prometheus
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
