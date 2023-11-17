@@ -52,7 +52,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: grafana.yourdomain.com
+  - host: grafana.edsmulticloudtreinamento.com
     http:
       paths:
       - path: /
