@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: argocd
+  name: monitoring
 
 ---
 
@@ -9,7 +9,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana-deployment
-  namespace: argocd
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -32,7 +32,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grafana-service
-  namespace: argocd
+  namespace: monitoring
 spec:
   selector:
     app: grafana
@@ -47,12 +47,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: grafana-ingress
-  namespace: argocd
+  namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: grafana.edsmulticloudtreinamento.com  # Substitua pelo seu domínio
+  - host: grafana.yourdomain.com
     http:
       paths:
       - path: /
@@ -62,3 +62,4 @@ spec:
             name: grafana-service
             port:
               number: 80
+
