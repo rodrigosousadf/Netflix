@@ -1,8 +1,10 @@
 Projeto Devsecops desenvolvido por mim. 
 pipeline no github actions usando sonarqube, trivy scan code, owasp dependency check, trivy scan image na parte de CI e ArgoCD na parte de CD, deixando a entrega toda no automatico. 
 Na parte de SRE, grafana pegando os dados do node exporter e prometheus. 
+![image](https://github.com/rodrigosousadf/Netflix/assets/44593480/99a3af57-0607-4815-ad58-ed4caf66dda7)
+
 ![image](https://github.com/rodrigosousadf/Netflix/assets/44593480/af28ef0b-a8bf-4e1b-b040-18cee20d9ad0)
-![Uploading image.png…]()
+
 
 # Netflix Clone
 
