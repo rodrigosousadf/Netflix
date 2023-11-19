@@ -50,6 +50,10 @@ data:
     - job_name: 'prometheus'
       static_configs:
       - targets: ['prometheus-deployment:9090']
+    - job_name: 'node-exporter'
+      static_configs:
+      - targets: ['node-exporter:9100']  # Substitua pelo nome do serviço e a porta do Node Exporter
+
 
 ---
 
