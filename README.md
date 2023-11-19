@@ -1,54 +1,16 @@
 Projeto Devsecops desenvolvido por mim. 
+
 pipeline no github actions usando sonarqube, trivy scan code, owasp dependency check, trivy scan image na parte de CI e ArgoCD na parte de CD, deixando a entrega toda no automatico. 
 Na parte de SRE, grafana pegando os dados do node exporter e prometheus. 
+
 ![image](https://github.com/rodrigosousadf/Netflix/assets/44593480/1c27199b-3220-40f5-a1c8-1af27662e48e)
 ![image](https://github.com/rodrigosousadf/Netflix/assets/44593480/db34040c-4e60-4286-96b7-94c98976d7c6)
-
-
 
 # Netflix Clone
 
 Este é um projeto de clone do Netflix, desenvolvido com Next.js e outras tecnologias web modernas.
 
-## Instalação
-
-Certifique-se de ter o Node.js e o npm instalados em sua máquina. Execute os seguintes comandos para instalar as dependências e iniciar o projeto:
-
-# Instalar dependências
-npm install
-
-# Iniciar o aplicativo
-
-npm start
-O aplicativo será executado em http://localhost:3000.
-
-Construção e Implantação
-Para construir o aplicativo para produção, execute o seguinte comando:
-
-npm run build
-Isso criará uma pasta build com os arquivos otimizados para produção.
-
-Para implantar o aplicativo em um servidor ou em um serviço de nuvem, você pode usar Docker. Aqui estão os passos básicos:
-
-# Construir a imagem Docker
-docker build -t netflix .
-
-# Marcar a imagem
-docker tag netflix rodrigosousadf/netflix:latest
-
-# Fazer login no Docker Hub
-echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-
-# Empurrar a imagem para o Docker Hub
-docker push rodrigosousadf/netflix:latest
-Certifique-se de substituir ${{ secrets.DOCKERHUB_TOKEN }} e ${{ secrets.DOCKERHUB_USERNAME }} com suas credenciais do Docker Hub.
-
-Análise de Segurança
-Este projeto inclui análise de segurança usando OWASP Dependency-Check e Trivy. Certifique-se de ter essas ferramentas instaladas e configuradas conforme mencionado no fluxo de trabalho GitHub Actions.
-
 Contribuindo
 Sinta-se à vontade para abrir problemas e enviar solicitações de pull. Contribuições são bem-vindas!
 
-Licença
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para detalhes.
 
